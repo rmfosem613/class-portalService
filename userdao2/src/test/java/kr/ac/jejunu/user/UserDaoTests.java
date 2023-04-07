@@ -1,6 +1,6 @@
 package kr.ac.jejunu.user;
 
-import org.hamcrest.core.IsNull;C
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -64,7 +64,7 @@ public class UserDaoTests {
     }
 
     private User insertedUser() throws ClassNotFoundException, SQLException {
-        String name = "허윤호";
+        String name = "hulk";
         String password = "1111";
         User user = new User();
         user.setName(name);
