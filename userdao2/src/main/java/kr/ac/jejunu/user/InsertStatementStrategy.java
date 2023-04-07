@@ -16,8 +16,8 @@ public class InsertStatementStrategy implements StatementStrategy {
         PreparedStatement preparedStatement = connection.prepareStatement
                 ("insert into userinfo (name, password) values ( ?, ? )"
                         , Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(1, user.getName());
+        preparedStatement.setString(2, user.getPassword());
         return preparedStatement;
     }
 }
