@@ -3,10 +3,10 @@ package kr.ac.jejunu.user;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class JdbcContext {
+public class JdbcTemplate {
     private final DataSource dataSource;
 
-    public JdbcContext(DataSource dataSource) {
+    public JdbcTemplate(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
