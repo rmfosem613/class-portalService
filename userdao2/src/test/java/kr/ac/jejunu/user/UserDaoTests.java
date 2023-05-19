@@ -3,8 +3,16 @@ package kr.ac.jejunu.user;
 import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericGroovyApplicationContext;
+import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import java.sql.SQLException;
 
@@ -14,14 +22,42 @@ import static org.hamcrest.core.Is.is;
 
 public class UserDaoTests {
     private static UserDao userDao;
-
     @BeforeAll
-    public static void setup() {
+    public static void setup() throws ClassNotFoundException {
+//        ApplicationContext applicationContext =
+//                new AnnotationConfigApplicationContext(DaoFactory.class);
+//        StaticApplicationContext applicationContext = new StaticApplicationContext();
+//
+//        BeanDefinition dataSourceBeanDefinition = new RootBeanDefinition(SimpleDriverDataSource.class);
+//        dataSourceBeanDefinition.getPropertyValues()
+//                .add("driverClass", Class.forName(
+//                        System.getenv("DB_CLASSNAME")
+//                ))
+//                .add("url", System.getenv("DB_URL"))
+//                .add("username", System.getenv("DB_USERNAME"))
+//                .add("password", System.getenv("DB_PASSWORD"))
+//
+//        ;
+//        applicationContext.registerBeanDefinition("dataSource", dataSourceBeanDefinition);
+//
+//        BeanDefinition jdbcTemplateBeanDefinition = new RootBeanDefinition(JdbcTemplate.class);
+//        jdbcTemplateBeanDefinition.getConstructorArgumentValues()
+//                .addGenericArgumentValue(new RuntimeBeanReference("dataSource"));
+//        applicationContext.registerBeanDefinition("jdbcTemplate", jdbcTemplateBeanDefinition);
+//
+//        BeanDefinition beanDefinition = new RootBeanDefinition(UserDao.class);
+//        beanDefinition.getConstructorArgumentValues()
+//                .addGenericArgumentValue(new RuntimeBeanReference("jdbcTemplate"));
+//        applicationContext.registerBeanDefinition("userDao", beanDefinition);
+//        ApplicationContext applicationContext =
+//                new ClassPathXmlApplicationContext("daoFactory.xml");
+//        ApplicationContext applicationContext = new
+//                GenericGroovyApplicationContext("daoFactory.groovy");
         ApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext(DaoFactory.class);
+                new AnnotationConfigApplicationContext("kr.ac.jejunu.user");
+
         userDao = applicationContext.getBean("userDao", UserDao.class);
     }
-
     @Test
     public void get() throws SQLException, ClassNotFoundException {
         Long id = 1l;
@@ -33,19 +69,20 @@ public class UserDaoTests {
         assertThat(user.getPassword(), is(password));
     }
 
-
     @Test
     public void insert() throws SQLException, ClassNotFoundException {
-        String name = "hulk";
+        String name = "허윤호";
         String password = "1111";
-        User user = new User();
+        User user = User.builder().name(name).password(password).build();
+//        User user = new User();
+//        User user = new User(id, name, password);;
         user.setName(name);
         user.setPassword(password);
         userDao.insert(user);
         assertThat(user.getId(), greaterThan(1l));
 
         User insertedUser = userDao.findById(user.getId());
-        assertThat(insertedUser.getId(), is(user.getId()));
+        assertThat(insertedUser.getId(),  is(user.getId()));
         assertThat(insertedUser.getName(), is(name));
         assertThat(insertedUser.getPassword(), is(password));
     }
@@ -66,7 +103,7 @@ public class UserDaoTests {
     }
 
     private User insertedUser() throws ClassNotFoundException, SQLException {
-        String name = "hulk";
+        String name = "허윤호";
         String password = "1111";
         User user = new User();
         user.setName(name);
@@ -85,4 +122,8 @@ public class UserDaoTests {
         assertThat(deletedUser, IsNull.nullValue());
 
     }
+
 }
+
+
+
