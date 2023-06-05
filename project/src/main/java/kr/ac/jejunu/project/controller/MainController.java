@@ -10,4 +10,14 @@ public class MainController {
     public String showHomePage() {
         return "index";
     }
+
+    @GetMapping("/create")
+    public String showCreatePage() {
+        return "create";
+    }
+
+    @GetMapping("/update")
+    public String showUpdatePage() {
+        return "update";
+    }
 }

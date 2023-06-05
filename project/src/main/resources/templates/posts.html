@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Posts</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+
+<body>
+    <header>
+        <h1>전공책 리뷰 게시판</h1>
+    </header>
+    <div class="wrap-container">
+        <div class="menu">
+            <h2>카테고리</h2>
+            <ul>
+                <li>전체</li>
+                <li>경상대학</li>
+                <li>공과대학</li>
+                <li>인문대학</li>
+                <li>의과대학</li>
+                <li>자연대학</li>
+                <li>해양대학</li>
+            </ul>
+        </div>
+        <div class="post">
+            <div class="post-head">
+                <h2>리뷰글 목차</h2>
+                <a href="/create" class="createBtn">글쓰기</a>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>글제목</th>
+                    <th>전공 카테고리</th>
+                    <th>책제목</th>
+                    <th>닉네임</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post : ${listPosts}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.title}"></td>
+                        <td th:text="${post.department + '>' + post.major}"></td>
+                        <td th:text="${post.btitle}"></td>
+                        <td th:text="${post.nickname}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <footer>
+        <div>
+            <p>포털서비스개발방법론 수업에서 기말 과제로 제출하기 위해 제작된 페이지 입니다.</p>
+        </div>
+    </footer>
+</body>
+</html>

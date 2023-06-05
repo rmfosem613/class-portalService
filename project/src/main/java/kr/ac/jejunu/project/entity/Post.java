@@ -17,4 +17,5 @@ public class Post {
     private String bauthor;
     private String content;
     private String password;
+    private String nickname;
 }

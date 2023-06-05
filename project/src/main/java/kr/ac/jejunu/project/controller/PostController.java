@@ -3,11 +3,13 @@ package kr.ac.jejunu.project.controller;
 import kr.ac.jejunu.project.dao.PostRepository;
 import kr.ac.jejunu.project.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class PostController {
     @Autowired
     PostRepository postRepository;
@@ -28,8 +30,10 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getPosts() {
-        return postRepository.allPosts();
+    public String getPosts(Model model) {
+        List<Post> listPosts = postRepository.allPosts();
+        model.addAttribute("listPosts", listPosts);
+        return "posts";
     }
 
     @DeleteMapping("/post/{id}")

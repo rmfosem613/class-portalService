@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class PostRepositoryImpl implements PostRepository {
 
-    private static final String INSERT_POST_QUERY="INSERT INTO POST(id,title,department,major,period,btitle,bauthor,content,password) values(?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_POST_QUERY="INSERT INTO POST(id,title,department,major,period,btitle,bauthor,content,password,nickname) values(?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_POST_QUERY="UPDATE POST SET title=? WHERE id=?";
     private static final String GET_POST_QUERY="SELECT * FROM POST WHERE id=?";
     private static final String DELETE_POST_QUERY="DELETE FROM POST WHERE id=?";
@@ -30,7 +30,8 @@ public class PostRepositoryImpl implements PostRepository {
                 post.getBtitle(),
                 post.getBauthor(),
                 post.getContent(),
-                post.getPassword()
+                post.getPassword(),
+                post.getNickname()
         );
         return post;
     }
@@ -56,7 +57,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("btitle"),
                     rs.getString("bauthor"),
                     rs.getString("content"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    rs.getString("nickname")
             );
         }, id);
     }
@@ -79,7 +81,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("btitle"),
                     rs.getString("bauthor"),
                     rs.getString("content"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    rs.getString("nickname")
             );
         });
     }
