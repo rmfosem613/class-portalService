@@ -8,6 +8,8 @@ public interface PostRepository{
     Post savePost(Post post);
     Post updatePost(Post post);
     Post getById(int id);
-    String deleteById(int id);
+    boolean deleteById(int id);
     List<Post> allPosts();
+
+    Post getPostById(int id);
 }

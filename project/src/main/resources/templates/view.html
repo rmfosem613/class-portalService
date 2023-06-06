@@ -4,13 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>View</title>
+    <title>Posts</title>
     <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <link rel="stylesheet" th:href="@{/css/view.css}" />
 </head>
 
 <body>
-<div class="wrap">
-    <h1>글제목</h1>
+<header>
+    <h1>전공책 리뷰 게시판</h1>
+</header>
+<div class="wrap-container">
+    <div class="menu">
+        <h2>카테고리</h2>
+        <ul class="category-list">
+            <li><a href="/posts">전체</a></li>
+            <li><a href="/posts">경상대학</a></li>
+            <li><a href="/posts">공과대학</a></li>
+            <li><a href="/posts">인문대학</a></li>
+            <li><a href="/posts">의과대학</a></li>
+            <li><a href="/posts">자연대학</a></li>
+            <li><a href="/posts">해양대학</a></li>
+        </ul>
+    </div>
+    <div class="view">
+        <div class="create-head">
+            <div class="create-head-1">
+                <a href="/posts" class="backBtn">뒤로가기</a>
+                <h2 th:text="${post.title}"></h2>
+            </div>
+            <div class="create-head-2">
+                <a th:href="@{'/post/edit/' + ${post.id}}" class="updateBtn">수정</a>
+                <a th:href="@{'/post/delete/' + ${post.id}}" class="deleteBtn">삭제</a>
+            </div>
+
+        </div>
+        <div class="wrap-container">
+            <div class="post-view">
+                <div class="post-view-group">
+                    <p id="department"><span th:text="${post.department}"></span> > <span th:text="${post.major}"></span></p>
+                    <p id="period"><span th:text="${post.period}"></span></p>
+                </div>
+               <p id="btitle"><span th:text="${post.btitle}"></span></p>
+                <p id="nickname"><span th:text="${post.nickname}"></span></p>
+                <p id="content" th:text="${post.content}"></p>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+<footer>
+    <div>
+        <p>포털서비스개발방법론 수업에서 기말 과제로 제출하기 위해 제작된 페이지 입니다.</p>
+    </div>
+</footer>
+<script>
+    document.querySelector('.deleteBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        fetch(event.target.getAttribute('href'), {
+            method: 'DELETE',
+        })
+            .then(res => {
+                if(res.ok) {
+                    window.location.href = '/posts';
+                } else {
+                    alert('Error occurred while deleting the post.');
+                }
+            });
+    });
+</script>
+
 </body>
 </html>

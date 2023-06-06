@@ -4,16 +4,96 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Update</title>
+    <title>Create</title>
     <link rel="stylesheet" th:href="@{/css/index.css}" />
-
+    <link rel="stylesheet" th:href="@{/css/create.css}" />
 </head>
 
 <body>
-<div class="wrap">
-    <h1>수정하기</h1>
-    <a href="/posts">전체 게시글</a>
+<header>
+    <h1>전공책 리뷰 게시판</h1>
+</header>
+<div class="wrap-container">
+    <div class="menu">
+        <h2>카테고리</h2>
+        <ul class="category-list">
+            <li><a href="/posts">전체</a></li>
+            <li><a href="/posts">경상대학</a></li>
+            <li><a href="/posts">공과대학</a></li>
+            <li><a href="/posts">인문대학</a></li>
+            <li><a href="/posts">의과대학</a></li>
+            <li><a href="/posts">자연대학</a></li>
+            <li><a href="/posts">해양대학</a></li>
+        </ul>
+    </div>
+    <div class="create">
+        <div class="create-head">
+            <div class="create-head-1">
+                <a href="/posts" class="createBtn">뒤로가기</a>
+                <h2>수정하기</h2>
+            </div>
+
+        </div>
+
+        <form th:action="@{/post/edit/{id}(id=${post.id})}" method="post" th:object="${post}">
+            <div class="create-form">
+                <table class="create-table">
+                    <tr>
+                        <td colspan="4">
+                            <input type="text" id="input-title" placeholder="글제목입력" th:field="*{title}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="input-department" placeholder="학부입력" th:field="*{department}">
+
+                        </td>
+                        <td>
+                            <input type="text" id="input-major" placeholder="학과입력" th:field="*{major}">
+
+                        </td>
+                        <td>
+                            <input type="text" id="input-period-start" placeholder="공부를 시작한 날짜" th:field="*{period}">
+                        </td>
+                        <td>
+                            <input type="text" id="input-period-end" placeholder="공부를 마친 날짜">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="text" id="input-btitle" placeholder="책제목검색" th:field="*{btitle}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="text" id="input-nickname" placeholder="닉네임 입력" th:field="*{nickname}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="text" id="input-content" placeholder="리뷰글 입력" th:field="*{content}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="text" id="input-password" placeholder="비밀번호 입력" th:field="*{password}">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button type="submit" class="saveBtn">저장</button>
+        </form>
+    </div>
 
 </div>
+<footer>
+    <div>
+        <p>포털서비스개발방법론 수업에서 기말 과제로 제출하기 위해 제작된 페이지 입니다.</p>
+    </div>
+</footer>
+
+<script type="text/javascript">
+
+</script>
 </body>
 </html>

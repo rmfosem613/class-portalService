@@ -1,0 +1,33 @@
+:root {
+    --color1: #F5EFE7;
+    --color2: #D8C4B6;
+    --color3: #4F709C;
+    --color4: #213555;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px 0 5px 0;
+    text-align: center;
+}
+
+thead {
+    background-color: var(--color1);
+
+}
+
+.post {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+    flex-grow: 1;
+}
+
+.post-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}

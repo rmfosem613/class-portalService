@@ -11,7 +11,7 @@ import java.util.List;
 public class PostRepositoryImpl implements PostRepository {
 
     private static final String INSERT_POST_QUERY="INSERT INTO POST(id,title,department,major,period,btitle,bauthor,content,password,nickname) values(?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_POST_QUERY="UPDATE POST SET title=? WHERE id=?";
+    private static final String UPDATE_POST_QUERY="UPDATE POST SET title=?, department=?, major=?, period=?, btitle=?, nickname=?, content=?, password=? WHERE id=?";
     private static final String GET_POST_QUERY="SELECT * FROM POST WHERE id=?";
     private static final String DELETE_POST_QUERY="DELETE FROM POST WHERE id=?";
     private static final String GET_POSTS_QUERY="SELECT * FROM POST";
@@ -40,6 +40,13 @@ public class PostRepositoryImpl implements PostRepository {
     public Post updatePost(Post post) {
         jdbcTemplate.update(UPDATE_POST_QUERY,
                 post.getTitle(),
+                post.getDepartment(),
+                post.getMajor(),
+                post.getPeriod(),
+                post.getBtitle(),
+                post.getNickname(),
+                post.getContent(),
+                post.getPassword(),
                 post.getId()
         );
         return post;
@@ -64,9 +71,14 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public String deleteById(int id) {
-        jdbcTemplate.update(DELETE_POST_QUERY,id);
-        return "Post got deleted with id"+id;
+    public boolean deleteById(int id) {
+        int rowsAffected = jdbcTemplate.update(DELETE_POST_QUERY,id);
+        return rowsAffected > 0;
+    }
+
+    @Override
+    public Post getPostById(int id) {
+        return getById(id);
     }
 
     @Override

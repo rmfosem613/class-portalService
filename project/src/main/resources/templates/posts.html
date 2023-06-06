@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Posts</title>
     <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <link rel="stylesheet" th:href="@{/css/post.css}" />
 </head>
 
 <body>
@@ -15,14 +16,14 @@
     <div class="wrap-container">
         <div class="menu">
             <h2>카테고리</h2>
-            <ul>
-                <li>전체</li>
-                <li>경상대학</li>
-                <li>공과대학</li>
-                <li>인문대학</li>
-                <li>의과대학</li>
-                <li>자연대학</li>
-                <li>해양대학</li>
+            <ul class="category-list">
+                <li><a href="/posts">전체</a></li>
+                <li><a href="/posts">경상대학</a></li>
+                <li><a href="/posts">공과대학</a></li>
+                <li><a href="/posts">인문대학</a></li>
+                <li><a href="/posts">의과대학</a></li>
+                <li><a href="/posts">자연대학</a></li>
+                <li><a href="/posts">해양대학</a></li>
             </ul>
         </div>
         <div class="post">
@@ -43,7 +44,7 @@
                 <tbody>
                     <tr th:each="post : ${listPosts}">
                         <td th:text="${post.id}"></td>
-                        <td th:text="${post.title}"></td>
+                        <td><a th:href="@{'/post/' + ${post.id}}"><span th:text="${post.title}"></span></a></td>
                         <td th:text="${post.department + '>' + post.major}"></td>
                         <td th:text="${post.btitle}"></td>
                         <td th:text="${post.nickname}"></td>
