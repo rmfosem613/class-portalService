@@ -47,21 +47,25 @@ public class PostController {
     public String getPost(@PathVariable("id") int id, Model model) {
         Post post = postRepository.getById(id);
         model.addAttribute("post", post);
+        // 비밀번호도 모델에 추가
+        model.addAttribute("password", post.getPassword());
         return "view";
     }
 
     @GetMapping("/posts")
     public String getPosts(Model model) {
         List<Post> listPosts = postRepository.allPosts();
-//        List<String> departments = postRepository.getDepartments(); // departments 값을 가져옵니다.
         model.addAttribute("listPosts", listPosts);
-//        model.addAttribute("departments", departments); // departments 목록을 모델에 추가합니다.
         return "posts";
     }
 
     @DeleteMapping("/post/delete/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable("id") int id) {
-        postRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        boolean deleted = postRepository.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
