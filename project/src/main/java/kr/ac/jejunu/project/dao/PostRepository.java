@@ -10,6 +10,8 @@ public interface PostRepository{
     Post getById(int id);
     boolean deleteById(int id);
     List<Post> allPosts();
+    List<String> getDepartments();
 
+    List<String> getMajorsByDepartment(String department);
     Post getPostById(int id);
 }

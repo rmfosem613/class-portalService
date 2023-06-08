@@ -15,16 +15,7 @@
 </header>
 <div class="wrap-container">
     <div class="menu">
-        <h2>카테고리</h2>
-        <ul class="category-list">
-            <li><a href="/posts">전체</a></li>
-            <li><a href="/posts">경상대학</a></li>
-            <li><a href="/posts">공과대학</a></li>
-            <li><a href="/posts">인문대학</a></li>
-            <li><a href="/posts">의과대학</a></li>
-            <li><a href="/posts">자연대학</a></li>
-            <li><a href="/posts">해양대학</a></li>
-        </ul>
+        <script th:src="@{/js/menu.js}"></script>
     </div>
     <div class="view">
         <div class="create-head">
@@ -42,7 +33,7 @@
             <div class="post-view">
                 <div class="post-view-group">
                     <p id="department"><span th:text="${post.department}"></span> > <span th:text="${post.major}"></span></p>
-                    <p id="period"><span th:text="${post.period}"></span></p>
+                    <p id="period"><span th:text="${post.sPeriod}"></span>~<span th:text="${post.ePeriod}"></span></p>
                 </div>
                <p id="btitle"><span th:text="${post.btitle}"></span></p>
                 <p id="nickname"><span th:text="${post.nickname}"></span></p>

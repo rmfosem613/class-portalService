@@ -27,6 +27,12 @@ public class PostController {
     public String updatePostForm(@PathVariable("id") int id, Model model) {
         Post post = postRepository.getPostById(id);
         model.addAttribute("post", post);
+
+        List<String> departments = postRepository.getDepartments();
+        model.addAttribute("departments", departments);
+
+        List<String> majors = postRepository.getMajorsByDepartment(post.getDepartment());
+        model.addAttribute("majors", majors);
         return "update"; // 수정 폼으로 이동하는 뷰 이름을 반환해야 합니다.
     }
 
@@ -47,7 +53,9 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(Model model) {
         List<Post> listPosts = postRepository.allPosts();
+//        List<String> departments = postRepository.getDepartments(); // departments 값을 가져옵니다.
         model.addAttribute("listPosts", listPosts);
+//        model.addAttribute("departments", departments); // departments 목록을 모델에 추가합니다.
         return "posts";
     }
 

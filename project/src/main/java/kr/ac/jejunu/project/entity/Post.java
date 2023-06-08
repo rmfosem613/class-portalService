@@ -12,7 +12,8 @@ public class Post {
     private String title;
     private String department;
     private String major;
-    private String period;
+    private String sPeriod;
+    private String ePeriod;
     private String btitle;
     private String bauthor;
     private String content;

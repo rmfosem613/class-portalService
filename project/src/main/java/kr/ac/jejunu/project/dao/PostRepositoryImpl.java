@@ -10,11 +10,13 @@ import java.util.List;
 @Repository
 public class PostRepositoryImpl implements PostRepository {
 
-    private static final String INSERT_POST_QUERY="INSERT INTO POST(id,title,department,major,period,btitle,bauthor,content,password,nickname) values(?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_POST_QUERY="UPDATE POST SET title=?, department=?, major=?, period=?, btitle=?, nickname=?, content=?, password=? WHERE id=?";
+    private static final String INSERT_POST_QUERY="INSERT INTO POST(id,title,department,major,sPeriod,ePeriod,btitle,bauthor,content,password,nickname) values(?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_POST_QUERY="UPDATE POST SET title=?, department=?, major=?, sPeriod=?, ePeriod=?, btitle=?, nickname=?, content=?, password=? WHERE id=?";
     private static final String GET_POST_QUERY="SELECT * FROM POST WHERE id=?";
     private static final String DELETE_POST_QUERY="DELETE FROM POST WHERE id=?";
     private static final String GET_POSTS_QUERY="SELECT * FROM POST";
+    private static final String GET_MAJORS_QUERY = "SELECT DISTINCT major FROM POST WHERE department = ?";
+
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -26,7 +28,8 @@ public class PostRepositoryImpl implements PostRepository {
                 post.getTitle(),
                 post.getDepartment(),
                 post.getMajor(),
-                post.getPeriod(),
+                post.getSPeriod(),
+                post.getEPeriod(),
                 post.getBtitle(),
                 post.getBauthor(),
                 post.getContent(),
@@ -42,7 +45,8 @@ public class PostRepositoryImpl implements PostRepository {
                 post.getTitle(),
                 post.getDepartment(),
                 post.getMajor(),
-                post.getPeriod(),
+                post.getSPeriod(),
+                post.getEPeriod(),
                 post.getBtitle(),
                 post.getNickname(),
                 post.getContent(),
@@ -60,7 +64,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("title"),
                     rs.getString("department"),
                     rs.getString("major"),
-                    rs.getString("period"),
+                    rs.getString("sPeriod"),
+                    rs.getString("ePeriod"),
                     rs.getString("btitle"),
                     rs.getString("bauthor"),
                     rs.getString("content"),
@@ -89,7 +94,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("title"),
                     rs.getString("department"),
                     rs.getString("major"),
-                    rs.getString("period"),
+                    rs.getString("sPeriod"),
+                    rs.getString("ePeriod"),
                     rs.getString("btitle"),
                     rs.getString("bauthor"),
                     rs.getString("content"),
@@ -97,5 +103,14 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("nickname")
             );
         });
+    }
+    @Override
+    public List<String> getDepartments() {
+        return jdbcTemplate.queryForList("SELECT DISTINCT department FROM POST", String.class);
+    }
+
+    @Override
+    public List<String> getMajorsByDepartment(String department) {
+        return jdbcTemplate.queryForList(GET_MAJORS_QUERY, String.class, department);
     }
 }
