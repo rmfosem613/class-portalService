@@ -23,6 +23,14 @@ public class PostController {
         return "redirect:/posts";
     }
 
+    @GetMapping("/posts/{category}")
+    public String getPostsByCategory(@PathVariable("category") String category, Model model) {
+        List<Post> postsByCategory = postRepository.getPostsByCategory(category);
+        model.addAttribute("listPosts", postsByCategory);
+        model.addAttribute("category", category);
+        return "posts";
+    }
+
     @GetMapping("/post/edit/{id}")
     public String updatePostForm(@PathVariable("id") int id, Model model) {
         Post post = postRepository.getPostById(id);

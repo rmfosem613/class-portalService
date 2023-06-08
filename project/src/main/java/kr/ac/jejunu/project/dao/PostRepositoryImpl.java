@@ -113,4 +113,24 @@ public class PostRepositoryImpl implements PostRepository {
     public List<String> getMajorsByDepartment(String department) {
         return jdbcTemplate.queryForList(GET_MAJORS_QUERY, String.class, department);
     }
+
+    @Override
+    public List<Post> getPostsByCategory(String category) {
+        String query = "SELECT * FROM POST WHERE department = ?";
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            return new Post(
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("department"),
+                    rs.getString("major"),
+                    rs.getString("sPeriod"),
+                    rs.getString("ePeriod"),
+                    rs.getString("btitle"),
+                    rs.getString("bauthor"),
+                    rs.getString("content"),
+                    rs.getString("password"),
+                    rs.getString("nickname")
+            );
+        }, category);
+    }
 }

@@ -14,4 +14,6 @@ public interface PostRepository{
 
     List<String> getMajorsByDepartment(String department);
     Post getPostById(int id);
+
+    List<Post> getPostsByCategory(String category);
 }

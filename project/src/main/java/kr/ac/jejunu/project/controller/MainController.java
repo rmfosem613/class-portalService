@@ -19,8 +19,8 @@ public class MainController {
         return "create";
     }
 
-    @GetMapping("/update")
-    public String showUpdatePage() {
-        return "update";
-    }
+//    @GetMapping("/update")
+//    public String showUpdatePage() {
+//        return "update";
+//    }
 }
