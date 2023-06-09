@@ -14,9 +14,7 @@
     <h1>전공책 리뷰 게시판</h1>
 </header>
 <div class="wrap-container">
-    <div class="menu">
-        <script th:src="@{/js/menu.js}"></script>
-    </div>
+
     <div class="update">
         <form th:action="@{/post/edit/{id}(id=${post.id})}" method="post" th:object="${post}">
             <div class="update-head">
@@ -61,8 +59,29 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="3">
                             <input type="text" id="input-btitle" placeholder="책제목검색" th:field="*{btitle}">
+                            <input type="hidden" id="input-isbn" th:field="*{bauthor}" />
+                        </td>
+                        <td>
+                            <input type="button" class="btitleBtn" value="API 책검색">
+                            <div class="api-modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <div id="api-book-btn">
+                                        <input type="button" id="prev" value="<"></input>
+                                        <input type="button" id="next" value=">"></input>
+                                    </div>
+                                    <hr style="margin-top: 5px; margin-bottom: 5px">
+                                    <div class="container" style="display: flex; flex-direction: column; width: 200px">
+                                        <p></p>
+                                        <div class="thumbnail"></div>
+                                    </div>
+                                    <button type="button" id="confirm">확인</button>
+
+                                </div>
+
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +90,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="1">
+                            <div id="book-img">책 이미지</div>
+                        </td>
+                        <td colspan="3">
+
                             <input type="text" id="input-content" placeholder="리뷰글 입력" th:field="*{content}">
                         </td>
                     </tr>
@@ -87,7 +110,97 @@
 
 </div>
 
-<script th:src="@{/js/department.js}"></script>
+<script th:src="@{/js/modal.js}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+
+    var currentPage = 1;  // Start from page 1
+
+    function loadBooks(page, query) {
+        $.ajax({
+            method: "GET",
+            url: "https://dapi.kakao.com/v3/search/book?target=title",
+            data: {
+                query: query,
+                page: page,  // Use the page variable here
+            },
+            headers: {
+                Authorization: "KakaoAK f361c14764dec8abd65706fb558dd90f"
+            },
+        })
+            .done(function (msg) {
+                console.log(msg.documents);
+                $(".container").empty();  // Clear the old books
+                for(var i=0;i<10;i++) {
+                    var newDiv = $("<div id='mg-id'>");  // Create a new div
+
+                    var newR = document.createElement("input");
+                    newR.setAttribute("type","radio");
+                    newR.setAttribute("name","btitle-radio");
+                    newR.setAttribute("value", msg.documents[i].isbn);
+                    newDiv.append(newR);
+
+                    // Create a new p and append the title
+                    var newP = $("<p>").append(msg.documents[i].title);
+                    newDiv.append(newP);
+
+                    // Create a new thumbnail and append it
+                    var newThumbnail = $('<img>', {
+                        src: msg.documents[i].thumbnail,
+                        class: "thumbnail"
+                    });
+                    newDiv.append(newThumbnail);
+                    $(".container").append(newDiv);
+                }
+            });
+    }
+
+    $(document).ready(function() {
+        $(".btitleBtn").click(function() {
+            var query = $("#input-btitle").val();  // Get the input text
+            loadBooks(currentPage, query);  // Load the first page
+        });
+
+        $("#next").click(function() {
+            currentPage += 1;
+            var query = $("#input-btitle").val();  // Get the input text
+            loadBooks(currentPage, query);  // Load the next page
+        });
+
+        $("#prev").click(function() {
+            if (currentPage > 1) {
+                currentPage -= 1;
+                var query = $("#input-btitle").val();  // Get the input text
+                loadBooks(currentPage, query);  // Load the previous page
+            }
+        });
+
+        $("#confirm").click(function() {
+
+
+            // Get the selected radio button
+            var selectedRadio = $("input[name='btitle-radio']:checked");
+
+            if (selectedRadio.length > 0) {
+                // Get the isbn and title
+                var isbn = selectedRadio.val();
+                var title = selectedRadio.siblings("p").text();
+                var thumbnail = selectedRadio.siblings(".thumbnail").attr("src");
+
+                console.log(title);
+                // Set the value of input-btitle to the title of the book
+                $("#input-btitle").val(title);
+                $("#input-isbn").val(isbn);
+                $("#book-img").empty(); // if #book-img already has an image, remove it
+                var img = $('<img>', {src: thumbnail});
+                $("#book-img").append(img);
+
+            }
+            $(".api-modal").css("display", "none");
+        });
+    });
+</script>
 <footer>
     <div>
         <p>포털서비스개발방법론 수업에서 기말 과제로 제출하기 위해 제작된 페이지 입니다.</p>

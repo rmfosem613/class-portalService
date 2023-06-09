@@ -18,9 +18,4 @@ public class MainController {
         model.addAttribute("post", new Post());
         return "create";
     }
-
-//    @GetMapping("/update")
-//    public String showUpdatePage() {
-//        return "update";
-//    }
 }

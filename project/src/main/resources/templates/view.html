@@ -35,12 +35,20 @@
         </div>
         <div class="wrap-container">
             <div class="post-view">
-                <div class="post-view-group">
-                    <p id="department"><span th:text="${post.department}"></span> > <span th:text="${post.major}"></span></p>
-                    <p id="period"><span th:text="${post.sPeriod}"></span>~<span th:text="${post.ePeriod}"></span></p>
+                <div class="view-header">
+                    <div id="book-img"></div>
+
+                    <div class="view-header-group">
+                        <div class="post-view-group">
+                            <p id="department"><span th:text="${post.department}"></span> > <span th:text="${post.major}"></span></p>
+                            <p id="period"><span th:text="${post.sPeriod}"></span>~<span th:text="${post.ePeriod}"></span></p>
+                        </div>
+                        <p id="btitle"><span th:text="${post.btitle}"></span></p>
+                        <p id="nickname"><span th:text="${post.nickname}"></span></p>
+                    </div>
+
                 </div>
-               <p id="btitle"><span th:text="${post.btitle}"></span></p>
-                <p id="nickname"><span th:text="${post.nickname}"></span></p>
+
                 <p id="content" th:text="${post.content}"></p>
             </div>
         </div>
@@ -76,6 +84,35 @@
             }
         });
     });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    function loadBooks(title) {
+        $.ajax({
+            method: "GET",
+            url: "https://dapi.kakao.com/v3/search/book?target=title",
+            data: {
+                query: title,
+            },
+            headers: {
+                Authorization: "KakaoAK f361c14764dec8abd65706fb558dd90f"
+            },
+        })
+            .done(function (msg) {
+                console.log(msg.documents[0].thumbnail);
+                if (msg.documents.length > 0 && msg.documents[0].hasOwnProperty('thumbnail')) {
+                    var thumbnailUrl = msg.documents[0].thumbnail;
+                    $("#book-img").html('<img src="' + thumbnailUrl + '" alt="Book Thumbnail"/>');
+                }
+            });
+    }
+    $(document).ready(function() {
+        var postTitle = /*[[${post.btitle}]]*/ 'default';
+
+        loadBooks(postTitle);
+    });
+
 </script>
 <footer>
     <div>
