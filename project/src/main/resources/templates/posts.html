@@ -34,7 +34,8 @@
                 </thead>
                 <tbody>
                     <tr th:each="post : ${listPosts}">
-                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.number}"></td>
+<!--                        <td th:text="${post.id}"></td>-->
                         <td><a th:href="@{'/post/' + ${post.id}}"><span th:text="${post.title}"></span></a></td>
                         <td th:text="${post.department + '>' + post.major}"></td>
                         <td th:text="${post.btitle}"></td>
@@ -42,6 +43,21 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="pagination">
+                <ul>
+                    <li id="prev">
+                        <a th:if="${listPosts.number > 0}" th:href="@{/posts(page=${listPosts.number - 1})}">&lt;</a>
+                        <a th:unless="${listPosts.number > 0}" href="#">&lt;</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, listPosts.totalPages - 1)}">
+                        <a th:href="@{/posts(page=${i})}" th:text="${i + 1}" th:class="${i == listPosts.number ? 'current-page' : ''}"></a>
+                    </li>
+                    <li id="next">
+                        <a th:if="${listPosts.number < listPosts.totalPages - 1}" th:href="@{/posts(page=${listPosts.number + 1})}">&gt;</a>
+                        <a th:unless="${listPosts.number < listPosts.totalPages - 1}" href="#">&gt;</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <footer>
@@ -49,6 +65,9 @@
             <p>포털서비스개발방법론 수업에서 기말 과제로 제출하기 위해 제작된 페이지 입니다.</p>
         </div>
     </footer>
+<script>
+
+</script>
 </body>
 
 </html>

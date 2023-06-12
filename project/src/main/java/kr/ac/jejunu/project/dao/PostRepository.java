@@ -1,8 +1,12 @@
 package kr.ac.jejunu.project.dao;
 
 import kr.ac.jejunu.project.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jdbc.repository.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository{
     Post savePost(Post post);
@@ -16,4 +20,10 @@ public interface PostRepository{
     Post getPostById(int id);
 
     List<Post> getPostsByCategory(String category);
+
+    Page<Post> findAll(Pageable pageable);
+    void updateNumbersAfterDeletion(int number);
+
+    @Query("SELECT MAX(number) FROM Post")
+    Optional<Integer> findMaxNumber();
 }

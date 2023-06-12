@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Post {
     private int id;
+    private int number;
     private String title;
     private String department;
     private String major;
