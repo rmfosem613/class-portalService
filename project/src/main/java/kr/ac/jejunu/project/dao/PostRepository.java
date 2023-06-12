@@ -19,11 +19,10 @@ public interface PostRepository{
     List<String> getMajorsByDepartment(String department);
     Post getPostById(int id);
 
-    List<Post> getPostsByCategory(String category);
+    Page<Post> getPostsByCategory(String category, Pageable pageable);
 
     Page<Post> findAll(Pageable pageable);
     void updateNumbersAfterDeletion(int number);
 
-    @Query("SELECT MAX(number) FROM Post")
     Optional<Integer> findMaxNumber();
 }

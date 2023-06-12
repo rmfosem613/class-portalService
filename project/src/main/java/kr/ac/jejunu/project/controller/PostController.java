@@ -26,9 +26,9 @@ public class PostController {
     }
 
     @GetMapping("/posts/{category}")
-    public String getPostsByCategory(@PathVariable("category") String category, Model model) {
-        List<Post> postsByCategory = postRepository.getPostsByCategory(category);
-
+    public String getPostsByCategory(@PathVariable("category") String category,
+                                     @RequestParam(defaultValue = "0") int page, Model model) {
+        Page<Post> postsByCategory = postRepository.getPostsByCategory(category, PageRequest.of(page, 6));
         model.addAttribute("listPosts", postsByCategory);
         model.addAttribute("category", category);
         return "posts";

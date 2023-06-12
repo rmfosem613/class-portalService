@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="post : ${listPosts}">
-                        <td th:text="${post.number}"></td>
+                        <td th:text="${post.number+1}"></td>
 <!--                        <td th:text="${post.id}"></td>-->
                         <td><a th:href="@{'/post/' + ${post.id}}"><span th:text="${post.title}"></span></a></td>
                         <td th:text="${post.department + '>' + post.major}"></td>

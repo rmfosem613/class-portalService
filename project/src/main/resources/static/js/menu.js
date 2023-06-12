@@ -5,7 +5,7 @@ h2.textContent = '카테고리';
 const ul = document.createElement('ul');
 ul.classList.add('category-list');
 
-const categories = ['전체', '경상대학', '공과대학', '인문대학', '의과대학', '자연과학대학', '해양과학대학'];
+const categories = ['전체','경상대학', '공과대학', '인문대학', '의과대학', '자연과학대학', '해양과학대학'];
 
 // Load department.json
 fetch('../json/department.json')

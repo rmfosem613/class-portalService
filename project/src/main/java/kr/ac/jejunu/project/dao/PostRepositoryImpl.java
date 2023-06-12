@@ -134,9 +134,11 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public List<Post> getPostsByCategory(String category) {
-        String query = "SELECT * FROM POST WHERE department = ?";
-        return jdbcTemplate.query(query, (rs, rowNum) -> {
+    public Page<Post> getPostsByCategory(String category, Pageable pageable) {
+        String countQuery = "SELECT count(*) FROM POST WHERE department = ?";
+        String query = "SELECT * FROM POST WHERE department = ? ORDER BY id ASC LIMIT ? OFFSET ?";
+        Integer total = jdbcTemplate.queryForObject(countQuery, new Object[]{category}, Integer.class);
+        List<Post> posts = jdbcTemplate.query(query, (rs, rowNum) -> {
             return new Post(
                     rs.getInt("id"),
                     rs.getInt("number"),
@@ -151,7 +153,9 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("password"),
                     rs.getString("nickname")
             );
-        }, category);
+        }, category, pageable.getPageSize(), pageable.getOffset());
+
+        return new PageImpl<>(posts, pageable, total != null ? total : 0);
     }
 
     @Override
