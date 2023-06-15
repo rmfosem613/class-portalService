@@ -83,4 +83,18 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/post/{id}/star")
+    public ResponseEntity<Post> increaseStar(@PathVariable("id") int id) {
+        Post post = postRepository.getById(id);
+        if (post != null) {
+            postRepository.increaseStarById(id);
+            post = postRepository.getById(id); // 업데이트된 star 값을 반영하기 위해 다시 불러옵니다.
+            return ResponseEntity.ok(post);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

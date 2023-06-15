@@ -15,7 +15,7 @@ import java.util.Optional;
 public class PostRepositoryImpl implements PostRepository {
 
     private static final String INSERT_POST_QUERY="INSERT INTO POST(id,number,title,department,major,sPeriod,ePeriod,btitle,bauthor,content,password,nickname) values(?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_POST_QUERY="UPDATE POST SET number=?, title=?, department=?, major=?, sPeriod=?, ePeriod=?, btitle=?, nickname=?, content=?, password=? WHERE id=?";
+    private static final String UPDATE_POST_QUERY="UPDATE POST SET number=?, title=?, department=?, major=?, sPeriod=?, ePeriod=?, btitle=?, nickname=?, content=?, password=?, star=? WHERE id=?";
     private static final String GET_POST_QUERY="SELECT * FROM POST WHERE id=?";
     private static final String DELETE_POST_QUERY="DELETE FROM POST WHERE id=?";
     private static final String GET_POSTS_QUERY="SELECT * FROM POST";
@@ -68,6 +68,7 @@ public class PostRepositoryImpl implements PostRepository {
                 post.getNickname(),
                 post.getContent(),
                 post.getPassword(),
+                post.getStar(),
                 post.getId()
         );
         return post;
@@ -88,7 +89,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("bauthor"),
                     rs.getString("content"),
                     rs.getString("password"),
-                    rs.getString("nickname")
+                    rs.getString("nickname"),
+                    rs.getInt("star")
             );
         }, id);
     }
@@ -119,7 +121,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("bauthor"),
                     rs.getString("content"),
                     rs.getString("password"),
-                    rs.getString("nickname")
+                    rs.getString("nickname"),
+                    rs.getInt("star")
             );
         });
     }
@@ -151,7 +154,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("bauthor"),
                     rs.getString("content"),
                     rs.getString("password"),
-                    rs.getString("nickname")
+                    rs.getString("nickname"),
+                    rs.getInt("star")
             );
         }, category, pageable.getPageSize(), pageable.getOffset());
 
@@ -176,7 +180,8 @@ public class PostRepositoryImpl implements PostRepository {
                     rs.getString("bauthor"),
                     rs.getString("content"),
                     rs.getString("password"),
-                    rs.getString("nickname")
+                    rs.getString("nickname"),
+                    rs.getInt("star")
             );
         }, pageSize, pageNumber * pageSize);
         return new PageImpl<>(posts, pageable, total);
@@ -191,5 +196,11 @@ public class PostRepositoryImpl implements PostRepository {
     public Optional<Integer> findMaxNumber() {
         Integer maxNumber = jdbcTemplate.queryForObject(MAX_POST_NUMBER_QUERY, Integer.class);
         return Optional.ofNullable(maxNumber);
+    }
+
+    @Override
+    public void increaseStarById(int id) {
+        String INCREASE_STAR_QUERY = "UPDATE POST SET star = star + 1 WHERE id = ?";
+        jdbcTemplate.update(INCREASE_STAR_QUERY, id);
     }
 }

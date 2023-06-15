@@ -20,4 +20,5 @@ public class Post {
     private String content;
     private String password;
     private String nickname;
+    private int star;
 }

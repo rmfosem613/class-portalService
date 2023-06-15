@@ -27,7 +27,7 @@
     flex-direction: column;
     padding: 20px 20px 0 20px;
     flex-grow: 1;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     /*background-color: #4F709C;*/
 }
 
@@ -97,7 +97,7 @@
     padding: 5px;
     width: 100%;
     border-radius: 5px;
-    height: 200px;
+    height: 180px;
 }
 
 /* modal */
@@ -120,4 +120,76 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+}
+
+/* 별점 */
+
+.like {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.like-review {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 40px;
+    background: var(--color1);
+    border: 0;
+    font-size: .9rem;
+    font-family: Futura;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid var(--color4);
+    margin-right: 20px;
+}
+
+.like-review:hover {
+    color: #9ad8e6; /* Darkened accent color (10% darker) */
+    transform: scale(1.2);
+}
+
+.like-review:hover span {
+    opacity: 1;
+    transition: all .2s ease-in-out;
+}
+
+.like-review:active {
+    transform: scale(1.4);
+}
+
+.like-review span {
+    position: absolute;
+    top: -55px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #9ad8e6; /* Darkened accent color (10% darker) */
+    color: rgba(#000000, .5);
+    padding: 10px 0;
+    border-radius: 100px;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+}
+
+.like-review:hover {
+    opacity: 1;
+}
+
+.like-review span:after {
+    position: absolute;
+    bottom: -7px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #9ad8e6; /* Darkened accent color (10% darker) */
 }

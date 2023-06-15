@@ -25,4 +25,6 @@ public interface PostRepository{
     void updateNumbersAfterDeletion(int number);
 
     Optional<Integer> findMaxNumber();
+
+    void increaseStarById(int id);
 }

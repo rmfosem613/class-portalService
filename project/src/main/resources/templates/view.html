@@ -52,10 +52,38 @@
                 <p id="content" th:text="${post.content}"></p>
             </div>
         </div>
+        <div class="like">
+            <button class="like-review" th:id="${post.id}">Like</button>
+            <span class="like-span" id="like-span-{post.id}"  th:text="${post.star}">0</span>
+        </div>
     </div>
-
-
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function(){
+        $(".like-review").click(function() {
+            var postId = $(this).attr('id');
+            var url = "/post/" + postId + "/star";
+            var span = document.querySelector(".like-span");
+
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(response) {
+                    $("#like-span-" + postId).text(response.star);
+                    span.innerHTML = Number(span.innerHTML) + 1;
+                    },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+    /*]]>*/
+</script>
 
 <script th:inline="javascript">
     var postPassword = /*[[${post.password}]]*/ 'default';
