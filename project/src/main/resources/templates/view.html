@@ -61,10 +61,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
-    /*<![CDATA[*/
     $(document).ready(function(){
         $(".like-review").click(function() {
-            var postId = $(this).attr('id');
+            var postId = $(this).attr('id'); // id 값을 postId 변수에 저장
             var url = "/post/" + postId + "/star";
             var span = document.querySelector(".like-span");
 
@@ -74,7 +73,7 @@
                 type: 'POST',
                 success: function(response) {
                     $("#like-span-" + postId).text(response.star);
-                    span.innerHTML = Number(span.innerHTML) + 1;
+                    span.innerHTML = Number(span.innerHTML) + 1; // 좋아요 값 증가
                     },
                 error: function(error) {
                     console.log(error);
@@ -82,22 +81,23 @@
             });
         });
     });
-    /*]]>*/
 </script>
 
 <script th:inline="javascript">
     var postPassword = /*[[${post.password}]]*/ 'default';
 
+    // 수정 버튼 클릭 시, 비밀번호를 입력받기 위해 prompt() 사용
     document.querySelector('.updateBtn').addEventListener('click', function(event) {
         var inputPassword = prompt("비밀번호를 입력해주세요.");
 
-        if(inputPassword === postPassword) {
-            window.location.href = event.currentTarget.dataset.link;
+        if(inputPassword === postPassword) { // 비밀번호가 일치하면
+            window.location.href = event.currentTarget.dataset.link; // 지정된 페이지로 이동
         } else {
             alert('비밀번호가 일치하지 않습니다.');
         }
     });
 
+    // 삭제 버튼 클릭 시, fetch()를 사용해 서버에 삭제 요청 보냄
     document.querySelector('.deleteBtn').addEventListener('click', function(event) {
         event.preventDefault();
 
@@ -105,9 +105,9 @@
             method: 'DELETE',
         })
             .then(res => {
-                if(res.ok) {
+                if(res.ok) { // 삭제에 성공할 경우
                     window.location.href = '/posts';
-                } else {
+                } else { // 삭제에 실패할 경우
                     alert('Error occurred while deleting the post.');
             }
         });
@@ -116,7 +116,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:inline="javascript">
-    function loadBooks(title) {
+    function loadBooks(title) { // title을 이용해 도서 정보 검색
         $.ajax({
             method: "GET",
             url: "https://dapi.kakao.com/v3/search/book?target=title",
@@ -135,7 +135,7 @@
                 }
             });
     }
-    $(document).ready(function() {
+    $(document).ready(function() { // 팩 제목 표시
         var postTitle = /*[[${post.btitle}]]*/ 'default';
 
         loadBooks(postTitle);

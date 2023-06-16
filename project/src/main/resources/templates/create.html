@@ -118,25 +118,25 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:inline="javascript">
 
-    var currentPage = 1;  // Start from page 1
-
+    var currentPage = 1;
+    // 도서 검색 결과를 화면에 표시(페이지 번호, 검색어)
     function loadBooks(page, query) {
         $.ajax({
             method: "GET",
             url: "https://dapi.kakao.com/v3/search/book?target=title",
             data: {
                 query: query,
-                page: page,  // Use the page variable here
+                page: page,
             },
             headers: {
                 Authorization: "KakaoAK f361c14764dec8abd65706fb558dd90f"
             },
         })
             .done(function (msg) {
-                console.log(msg.documents);
-                $(".container").empty();  // Clear the old books
+                // console.log(msg.documents);
+                $(".container").empty();
                 for(var i=0;i<10;i++) {
-                    var newDiv = $("<div id='mg-id'>");  // Create a new div
+                    var newDiv = $("<div id='mg-id'>");
 
                     var newR = document.createElement("input");
                     newR.setAttribute("type","radio");
@@ -144,11 +144,9 @@
                     newR.setAttribute("value", msg.documents[i].isbn);
                     newDiv.append(newR);
 
-                    // Create a new p and append the title
                     var newP = $("<p>").append(msg.documents[i].title);
                     newDiv.append(newP);
 
-                    // Create a new thumbnail and append it
                     var newThumbnail = $('<img>', {
                         src: msg.documents[i].thumbnail,
                         class: "thumbnail"
@@ -160,29 +158,27 @@
     }
 
     $(document).ready(function() {
-        $(".btitleBtn").click(function() {
-            var query = $("#input-btitle").val();  // Get the input text
-            loadBooks(currentPage, query);  // Load the first page
+        $(".btitleBtn").click(function() { // 도서 검색 버튼
+            var query = $("#input-btitle").val();
+            loadBooks(currentPage, query);
         });
 
-        $("#next").click(function() {
+        $("#next").click(function() { // 페이지 번호 증가. 다음 페이지 도서 목록 로드.
             currentPage += 1;
-            var query = $("#input-btitle").val();  // Get the input text
-            loadBooks(currentPage, query);  // Load the next page
+            var query = $("#input-btitle").val();
+            loadBooks(currentPage, query);
         });
 
-        $("#prev").click(function() {
+        $("#prev").click(function() { // 페이지 번호 감소. 이전 페이지 도서 목록 로드.
             if (currentPage > 1) {
                 currentPage -= 1;
-                var query = $("#input-btitle").val();  // Get the input text
-                loadBooks(currentPage, query);  // Load the previous page
+                var query = $("#input-btitle").val();
+                loadBooks(currentPage, query);
             }
         });
 
-        $("#confirm").click(function() {
+        $("#confirm").click(function() { // 선택된 도서의 정보를 가져와서 책 제목 입력 필드에 설정
 
-
-            // Get the selected radio button
             var selectedRadio = $("input[name='btitle-radio']:checked");
 
             if (selectedRadio.length > 0) {
@@ -191,10 +187,10 @@
                 var title = selectedRadio.siblings("p").text();
                 var thumbnail = selectedRadio.siblings(".thumbnail").attr("src");
                 console.log(title);
-                // Set the value of input-btitle to the title of the book
+
                 $("#input-btitle").val(title);
                 $("#input-isbn").val(isbn);
-                $("#book-img").empty(); // if #book-img already has an image, remove it
+                $("#book-img").empty();
                 var img = $('<img>', {src: thumbnail});
                 $("#book-img").append(img);
 
